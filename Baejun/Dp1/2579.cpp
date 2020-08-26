@@ -3,18 +3,7 @@ using namespace std;
 
 int n;
 int stair[301];
-int dp[301][301];
-int up(int x , int status){
-	
-	if(x == n-1) return stair[x];
-	// 마지막 계단은 반드시 밣아야 한다.
-	if(x >= n) return -987654321;
-	
-	int& ret = dp[x][status];
-	if(ret != 0) return ret;
-	if(status == 1) return ret =  up(x+2 , 0) + stair[x];
-	return ret =  max(up(x+1 , 1) , up(x+2 , 0)) + stair[x];
-}
+int dp[301];
 int main(){
 	cin >> n;
 	
@@ -22,5 +11,14 @@ int main(){
 		cin >> stair[i];
 	}
 	
-	cout << up(0 , 0) << endl;
+	//이 알고리즘의 핵심 포인트 stair[0]+stair[1] 은 결과상 될 수가 없음. 
+	dp[0] = stair[0];
+    dp[1] = max(stair[0]+stair[1], stair[1]);
+    dp[2] = max(stair[0]+stair[2], stair[1]+stair[2]);
+	
+	for(int i=3;i<=n;i++) {
+    dp[i] = max(dp[i-2] + stair[i], dp[i-3] + stair[i] + stair[i-1] );
+	}
+
+	cout << dp[n-1]<< endl;
 }
