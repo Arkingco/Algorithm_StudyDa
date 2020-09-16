@@ -2,38 +2,48 @@
 #include<vector>
 using namespace std;
 
-void matrix_dfs (int x){
-	check[x] = true;
-	cout << x << endl;
-	for(int i=1; i<=n; ++i){
-		if( a[x][i] == 1 && check[i] == false)
-			dfs[i];
+
+// 그래프의 인접 리스트 표현
+vector<vector<int>> adj;
+// 각 정점을 방문했는지 여부를 나타낸다.
+vector<bool> visited;
+// 깊이 우선 탐색을 구현한다.
+void dfs(int here){
+	cout << "DFS visits" << here << endl;
+	visited[here] = true;
+	// 모든 인접 정점을 순회하면서
+	for(int i=0; i<adj[here].size(); ++i){
+		int there = adj[here][i];
+		// 아직 방문한 적 없다면 방문한다.
+		if(!visited[there])
+			dfs(there);
+	}
+	// 더이상 방문할 정점이 없으니, 재귀 호출을 종료하고 이전 정점으로 돌아간다.
+}
+// 모든 정점을 방문한다.
+void dfsAll(){
+	// visited를 모두 false로 초기화한다.
+	visited = vector<bool>(adj.size() , false);
+	// 모든 정점을 순회하면서 , 아직 방문한 적 없으면 방문한다.
+	for(int i=0; i<adj.size(); ++i){
+		if(!visited[i])
+			dfs(i);
 	}
 }
-void list_dfs(int x){
-	check[x] = true;
-	printf("%d ",x);
-	for(int i=0; i<a[x].size(); ++i){
-		int y = a[x][i];
-		if( check[y] == false ){
-			dfs(y);
-		} 
-	}
-}
+
 int main(){
-	int n,m;
-	cin >> n >> m;
+	int n , m;
+	cin >> n;
 	
-	vector<int> graph[n+1];
-	
-	for(int i=0; i<m; ++i){
-		int u,v;
-		cin >> u >> v;
-		graph[u].push_back(v);
-		graph[v].push_back(u)
-		// 단방향의 경우 graph[u].push_back(v);만 작성
-        // 가중치가 있는 경우 vector<pair<int,int>> graph[n+1];로 만들거나 구조체를 만들어서 가중치와 함께 저장
-        // graph[u].push_back(make_pair(v,w)); u->v 가중치: w
- 
+	for(int i=0; i<n; ++i){
+		cin >> m;
+		vector<int> input;
+		for(int j=0; j<m; ++j){
+			int u;
+			cin >> u;
+			input.push_back(u);
+		}
+		adj.push_back(input);
 	}
-}
+	dfsAll();
+} 
