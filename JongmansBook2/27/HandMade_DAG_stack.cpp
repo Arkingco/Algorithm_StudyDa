@@ -16,9 +16,9 @@ void dfs(int v){
 			dfs(next);
 		}
 	}
+	cout << v << " "; 
 	stackey.push(v);
 }
-
 int main(){
 	
 	cin >> n >> m;
@@ -36,7 +36,7 @@ int main(){
         	dfs(i);
         }
 	}
-	
+	cout << endl;
 	while(!stackey.empty()){
 		cout << stackey.top() << " ";
 		stackey.pop();
