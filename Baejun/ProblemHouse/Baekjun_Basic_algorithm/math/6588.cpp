@@ -1,21 +1,32 @@
 #include<iostream>
+#include<vector>
+#include<algorithm>
+#include<cmath>
 using namespace std;
 
-bool era[1001];
+const int MAX_VALUE = 1000000;
 
+bool eratose[MAX_VALUE];
 int main(){
-	era[1] = true;
-	for(int i=2; i<=1000; ++i){
-		for(int j=i; i*j<=1000; j++){
-			era[i*j] = true;
+	eratose[1] = true;
+	for(int i=2; i<=sqrt(MAX_VALUE); ++i){
+		if(eratose[i] == true) continue;
+		for(int j=i; i*j<=MAX_VALUE; j++){
+			eratose[i*j] = true;
 		}
 	}
-	int T ,n , count = 0;
-	cin >> T;
-	while(T--){
-		cin >>n;
-		if(era[n] == false) count++;
+	
+	int  T, n;
+	while(n != 0){
+		cin >> n;
+		bool isable = true;
+		for(int i=1; i<n; ++i){
+			if(eratose[i] == false && eratose[n-i] == false && isable){
+				cout << n <<" = " << i << " + " << n-i << '\n';
+				isable = false;
+			}
+		}
+		if(isable == true && n != 0 ) cout << "Goldbach's conjecture is wrong." << '\n';
 	}
-	cout << count << endl;
 	
 }
