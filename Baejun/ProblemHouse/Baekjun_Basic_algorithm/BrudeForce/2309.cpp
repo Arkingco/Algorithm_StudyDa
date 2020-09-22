@@ -17,14 +17,7 @@ const int Nanjangs = 9;
 vector<int> brude(Nanjangs);
 
 int force(int n){
-	if(n == 9) return 0;
-	if( force(n-1 ) + brude[n] == 100){
-		cout << "find";
-	} 
-	if( force(n-1) == 100) {
-		cout << "find 2";
-	}
-		
+
 } 
 
 int main(){
