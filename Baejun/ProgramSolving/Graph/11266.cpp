@@ -1,8 +1,7 @@
 #include <iostream>
-#include <cstdio>
 #include <vector>
 #include <algorithm>
-#define MAX_NUM 100001
+#define MAX_NUM 100010
 using namespace std;
 
 int V, E, counter=0; 
@@ -11,7 +10,7 @@ vector<int> discovered;
 vector<vector<int> > graph;
  
 int findCutVertex(int here , bool isRoot){
-    discovered[here]= ++counter;
+    discovered[here] = ++counter;
     int ret = discovered[here];
     
 	int childNode = 0;
@@ -29,6 +28,7 @@ int findCutVertex(int here , bool isRoot){
             ret = min(ret, discovered[next]);
         }
     }
+	// 이 childNode라는건 discovered[here] 보다 더 높은 정점과 역방향 간선으로 연결되어 있지 않아서 생기는 조건임 2개이상일 때
 	if(isRoot) isCutVertex[here] = (childNode >= 2);
     return ret;
 }
@@ -37,8 +37,8 @@ int main(){
     cin >> V >> E;
 	isCutVertex = vector<bool>(V+1 , false);
 	graph = vector<vector<int> >(V+1 , vector<int>(0 , 0));
-	discovered = vector<int>(V , -1);
-    for(int i =0; i<E; i++){	
+	discovered = vector<int>(V+1 , -1);
+    for(int i =1; i<=E; i++){	
         int a, b;
         cin >> a >> b;
         graph[a].push_back(b);
@@ -46,7 +46,7 @@ int main(){
     }
 	
  	for(int i = 1; i <= V; i++){
-        if(!discovered[i])
+        if(discovered[i] == -1)
             findCutVertex(i, true);
     }
 
