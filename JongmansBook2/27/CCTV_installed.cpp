@@ -32,7 +32,6 @@ int dfs(int here){
 	int children[3] = {0 , 0 , 0};
 	for(int i=0; i<adj[here].size(); ++i){
 		int there = adj[here][i];
-		
 		if(!visited[there]){
 			++children[dfs(there)];
 		}
@@ -50,6 +49,9 @@ int dfs(int here){
 int installCamera(){
 	installed = 0;
 	for(int i=0; i<V; ++i){
+		// 이렇게 작성하는 이유는 혼자 있는 정점들을 생각해서 만들어 준 것이다.
+		// 혼자있는 정점은 무조건 UNWATCHED를 반환하기 때문에 값을 올릴 수 없으니
+		// 값을 올려주도록 하자
 		if(!visited[i] && dfs(i) == UNWATCHED)
 			++installed;
 	}
