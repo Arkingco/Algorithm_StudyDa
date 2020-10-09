@@ -1,3 +1,6 @@
+
+// 상태공간문제
+
 #include<iostream>
 #include<vector>
 #include<queue>
@@ -6,56 +9,51 @@
 using namespace std;
 int dx[] = {0 , 0 , 1 , -1};
 int dy[] = {1 , -1 , 0 , 0};
-
-int main(){
-	int start = 0;
+int play(){
+	int puzzleList = 0;
 	for(int i=0; i<3; ++i){
 		for(int j=0; j<3; ++j){
-			int temp;
-			cin >> temp;
-			if (temp == 0){
-				temp = 9;
+			int value;
+			cin >> value;
+			if(value == 0){
+				value = 9;
 			}
-			
-			start = start*10 + temp;
+			puzzleList = (puzzleList*10) + value;
 		}
 	}
 	queue<int> q;
 	map<int , int > dist;
-	dist[start] = 0;
-	q.push(start);
-	
+	if(puzzleList==123456789) return 0;
+	dist[puzzleList] = 0;
+	q.push(puzzleList);
+	// BFS시작
 	while(!q.empty()){
-		int now_num = q.front();
-		string now = to_string(now_num);
+		int hereNum = q.front();
+		string hereNum_toString = to_string(hereNum);
 		q.pop();
+		int find9 = hereNum_toString.find('9');
+		int x = find9/3;
+		int y = find9%3;
 		
-		int nn = now.find(9); 	// 9의 위치
-		int x = nn/3;			// 9의 위치의 행값
-		int y = nn%3;			// 9의 위치의 열값
-		
-		for(int k=0; k<4; ++k){
-			int nx = x+dx[k];
-			int ny = y+dy[k];
-			
-			if(nx >= 0 & nx < 3 && ny >= 0 && ny < 3){
-				string next = now;
-				swap(next[3*x+y] , next[3*nx + ny]);
+		for(int i=0; i<4; ++i){
+			int rx = dx[i]+ x;
+			int ry = dy[i]+ y;
+			if(rx >= 0 && rx < 3 && ry >= 0 && ry < 3 ){
+				string next = hereNum_toString;
+				swap(next[3*x + y] , next[3*rx + ry]);
 				int num = stoi(next);
 				if(dist.count(num) == 0){
-					dist[num] = dist[now_num] + 1;
+					if(num == 123456789) return dist[hereNum] + 1;
+					dist[num] = dist[hereNum] + 1;
 					q.push(num);
 				}
 			}
 		}
 	}
-	
-	if(dist.count(123456789) == 0){
-		cout << -1 << endl;
-	} else{
-		cout << dist[123456789] << endl;
-	}
-	return 0;
+	return -1;
+}
+int main(){
+	cout << play() << endl;
 }
 
 
