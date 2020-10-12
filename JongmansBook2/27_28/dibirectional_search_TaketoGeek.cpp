@@ -1,23 +1,22 @@
 // C++ program for Bidirectional BFS search 
 // to check path between two vertices 
 #include <bits/stdc++.h> 
-using namespace std; 
-  
-// class representing undirected graph 
-// using adjacency list 
+using namespace std;
+
+// 무 방향 그래프를 나타내는 클래스
+// 인접 목록 사용
 class Graph 
 { 
-    //number of nodes in graph 
-    int V; 
-  
-    // Adjacency list 
+    
+	// 그래프의 노드 수
+    int V;
+    // 인접 리스트
     list<int> *adj; 
 public: 
     Graph(int V); 
     int isIntersecting(bool *s_visited, bool *t_visited); 
     void addEdge(int u, int v); 
-    void printPath(int *s_parent, int *t_parent, int s, 
-                             int t, int intersectNode); 
+    void printPath(int *s_parent, int *t_parent, int s,int t, int intersectNode); 
     void BFS(list<int> *queue, bool *visited, int *parent); 
     int biDirSearch(int s, int t); 
 }; 
@@ -28,7 +27,7 @@ Graph::Graph(int V)
     adj = new list<int>[V]; 
 }; 
   
-// Method for adding undirected edge 
+// 간선 추가
 void Graph::addEdge(int u, int v) 
 { 
     this->adj[u].push_back(v); 
@@ -66,9 +65,9 @@ int Graph::isIntersecting(bool *s_visited, bool *t_visited)
     int intersectNode = -1; 
     for(int i=0;i<V;i++) 
     { 
-        // if a vertex is visited by both front 
-        // and back BFS search return that node 
-        // else return -1 
+        // 두 전면에서 정점을 방문한 경우
+        // 그리고 뒤로 BFS 검색은 해당 노드를 반환합니다.
+        // 그렇지 않으면 -1을 반환합니다.
         if(s_visited[i] && t_visited[i]) 
             return i; 
     } 
@@ -76,8 +75,7 @@ int Graph::isIntersecting(bool *s_visited, bool *t_visited)
 }; 
   
 // Print the path from source to target 
-void Graph::printPath(int *s_parent, int *t_parent, 
-                  int s, int t, int intersectNode) 
+void Graph::printPath(int *s_parent, int *t_parent, int s, int t, int intersectNode) 
 { 
     vector<int> path; 
     path.push_back(intersectNode); 
@@ -93,8 +91,8 @@ void Graph::printPath(int *s_parent, int *t_parent,
     { 
         path.push_back(t_parent[i]); 
         i = t_parent[i]; 
-    } 
-  
+    } 	
+  	
     vector<int>::iterator it; 
     cout<<"*****Path*****\n"; 
     for(it = path.begin();it != path.end();it++) 
@@ -109,7 +107,7 @@ int Graph::biDirSearch(int s, int t)
     // source and target(front and backward BFS) 
     // for keeping track on visited nodes 
     bool s_visited[V], t_visited[V]; 
-  
+	
     // Keep track on parents of nodes 
     // for front and backward search 
     int s_parent[V], t_parent[V]; 

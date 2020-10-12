@@ -2,6 +2,7 @@
 #include<map>
 #include<vector>
 #include<queue>
+using namespace std;
 class State {
 	// 인접한 상태들의 목록을 반환한다.
 	vector<State> getAdjacent() const;

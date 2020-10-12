@@ -4,11 +4,12 @@
 #include<vector>
 using namespace std;
 
-vector<vector<int> > adj;
-vector<bool> visited;
-
+class Graphs{
+	vector<vector<int> > adj;
+	vector<int> visited_start_From_left;
+	vector<int> visited_start_From_right;
+}
 int V , E;
-
 void BFS(int here){
 	queue<int> q;
 	q.push(here);
