@@ -34,9 +34,10 @@ int main() {
 		for(int i=0; i<adj[here].size(); ++i){
 			int there = adj[here][i].second;
 			int thereDistVal = adj[here][i].first;
+			int nextDistVal = dist[here] + thereDistVal;
 			if(dist[there] > dist[here] + thereDistVal ) {
-				dist[there] = dist[here] + thereDistVal;
-				pq.push(make_pair(-thereDistVal, there));
+				dist[there] = nextDistVal;
+				pq.push(make_pair(-nextDistVal, there));
 			}
 		}
 	}

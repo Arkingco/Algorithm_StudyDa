@@ -47,19 +47,20 @@ vector<int> dijkstra(int start) {
 	
 	while(!pq.empty()) {
 		int here = pq.top().second;
-		
+		pq.pop();
 		for(int i=0; i<adj[here].size(); ++i) {
-			int next = pq.top().second;
-			int nextVal = pq.top().first;
-			
-			pq.pop();
-			
+			int next = adj[here][i].first;
+			int nextVal = adj[here][i].second;
 			int nextDistValue = dist[here] + nextVal;
+			
 			if(dist[next] > nextDistValue) {
 				dist[next] = nextDistValue;
 				pq.push({-nextDistValue, next});
 			}
 		}
+	}
+	for(int i=0; i<dist.size(); ++i) {
+		if(dist[i] != INF) cout << "i : " << i  << " dist[i] : " << dist[i] << endl;
 	}
 	
 	return dist;	
@@ -78,6 +79,7 @@ int solve(const vector<int>& a, const vector<int>& b) {
 	for(int i=0; i<V; ++i) adj[i].clear();
 	for(int i=0; i<a.size(); ++i) {
 		int delta = a[i] - b[i];
+		cout << " hi" << endl;
 		adj[START].push_back({vertex(delta), a[i]});
 	}
 	// 현재 차이
