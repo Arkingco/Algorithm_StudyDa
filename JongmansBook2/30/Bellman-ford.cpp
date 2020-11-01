@@ -6,7 +6,7 @@ using namespace std;
 const int INF = 987654321;
 int main() {
 	int V, E, start;
-	cin >> V >> E >> start;
+	cin >> V >> E;
 	vector<pair<int, int> > adj[V+1];
 	vector<int> dist(V+1, INF);
 	
@@ -16,7 +16,7 @@ int main() {
 		adj[from].push_back({to, val});
 	}
 	
-	dist[start] = 0;
+	dist[1] = 0;
 	for(int iter=0; iter<V; ++iter) {
 		for(int here=0; here<V; ++here) {
 			for(int i=0; i<adj[here].size(); ++i) {
@@ -30,7 +30,6 @@ int main() {
 			}
 		}
 	}
-	
 	for(int i=1; i<=V; ++i) cout << dist[i] << " ";
 	
 
