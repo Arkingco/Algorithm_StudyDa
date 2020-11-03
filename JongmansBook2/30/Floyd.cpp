@@ -27,21 +27,21 @@ void init() {
 	
 }
 void printAdj() {
-	for(int k=0; k<=V; ++k){
-		cout << endl;
-		cout << endl;
+	
 		for(int i=1; i<=V; ++i) {
-			cout << endl;
 			for(int j=1; j<=V; ++j) {
 				if(adj[i][j] == INF)
 					cout << "I" << " ";
 				else 
 					cout << adj[i][j] << " ";
 			}
+			cout << endl;
 		}
-	}
-	
+	cout << endl;
+	cout << endl;
 }
+	
+
 
 void makeFloyd() {
 	
@@ -51,14 +51,15 @@ void makeFloyd() {
 				adj[from][to] = 0;
 	printAdj();
 	
-	for(int k=V; k>1; --k)
+	int k=1;
 		for(int from=1; from<=V; ++from){
 			for(int to=1; to<=V; ++to){
 				adj[from][to] = min(adj[from][to], adj[from][k] + adj[k][to]);
 			}
-			printAdj();
+			
 		}
-	// end
+	// end.
+	printAdj();
 }
 
 void makeFloyd2() {
@@ -88,18 +89,6 @@ void reconstruct(int u, int v, vector<int>& path) {
 int main() {
 	
 	init();
-	makeFloyd2();
-	vector<int> path;
-	reconstruct(1,5,path);
-	cout << endl;
-	for(int i=0; i<path.size(); ++i)
-		cout << path[i] << " " ;
-	cout << endl;
-	for(int i=1; i<=V; ++i) {
-		for(int j=1; j<=V; ++j) {
-			cout << via[i][j] << " ";
-		}
-		cout << endl;
-	}
+	makeFloyd();
 			
 }
