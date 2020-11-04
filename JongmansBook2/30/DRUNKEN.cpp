@@ -18,6 +18,12 @@ void init() {
 		cin >> from >> to >> val;
 		adj[from][to] = val;
 	}
+	
+	int T;
+	cin >> T;
+	while(T--) {
+		
+	}
 }
 int main() {
 	init();
