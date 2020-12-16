@@ -7,6 +7,7 @@ struct TreeNode {
 	vector<TreeNode*> children;
 };
 int N,longest;
+
 int heights(TreeNode* root) {
 	
 	vector<int> height;
