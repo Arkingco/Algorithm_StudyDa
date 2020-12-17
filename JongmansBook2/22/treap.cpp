@@ -38,18 +38,21 @@ typedef pair<Node*, Node*> NodePair;
 // root를 루트로 하는 트립을 key 미만의 값과 이상읠 값을 갖는
 // 두 개의 트립으로 분리한다.
 NodePair split(Node* root, KeyType key) {
+	// NodePair 은 리턴할 값
 	if(root == NULL) return NodePair(NULL, NULL);
-	// 루트가 key 미만이라면 오른쪽 서브트리를 쪼갠다.
-	if(root -> key < key ) {
-		NodePair rs = split(root -> right, key);
+	// 분리할 것 root의 key 가 node의 키 key보다 작은경우
+	if(root -> key < key) {
+		// 결국 밖에선 노드와 루트에 붙일 애들을 찾는거임 rs.first 는 노드의 왼쪽 rs.second 는 노드의 오른쪽
+		// 여기서 나온 rs.first값은 key보다 작은 값이고 그러면 root의 오른쪽에 대입한다.
+		NodePair rs = split(root->right, key);
 		root->setRight(rs.first);
 		return NodePair(root, rs.second);
 		
 	}
-	// 루트가 key 이상이라면 왼쪽 서브트리를 쪼갠다.
+	// 큰경우
 	NodePair ls = split(root->left, key);
 	root->setLeft(ls.second);
-	return NodePair(ls.first, root);
+	return NodePair(ls.first, root)
 }
 
 // root를 루트로 하는 트립에 새 노드 node를 삽입한 뒤 결과 트립의 루트를 반환한다.
