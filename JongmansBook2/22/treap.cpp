@@ -52,7 +52,7 @@ NodePair split(Node* root, KeyType key) {
 	// 큰경우
 	NodePair ls = split(root->left, key);
 	root->setLeft(ls.second);
-	return NodePair(ls.first, root)
+	return NodePair(ls.first, root);
 }
 
 // root를 루트로 하는 트립에 새 노드 node를 삽입한 뒤 결과 트립의 루트를 반환한다.
@@ -73,6 +73,77 @@ Node* insert(Node* root, Node* node ) {
 	}
 	return root;
 }
-int main() {
-	
+
+Node* merge(Node* a, Node* b) {
+	if(a == NULL) return b;
+	if(b == NULL) return a;
+	if(a->priority < b->priority) {
+		b->setLeft(merge(a, b->right));
+		return b;
+	}
+	a->setRight(merge(a->right, b));
+	return a;
 }
+
+Node* erase(Node* root, KeyType key) {
+	if(root == NULL) return root;
+	// root를 지우고 양 서브트리를 합친 뒤 반환한다.
+	if(root->key == key) {
+		Node* ret = merge(root->left, root->right);
+		delete root;
+		return ret;
+	}
+	if(root->key > key) {
+		root->setLeft(erase(root->left, key));
+	}
+	else {
+		root->setRight(erase(root->right, key));
+	}
+	return root;
+}
+
+void inorder(Node* root)
+{
+        if(root!=NULL)
+        {
+                inorder(root->left);
+                cout<<root->key<<' ';
+                inorder(root->right);
+        }
+        return;
+}
+Node* kth(Node* root, int k) {
+	// 왼쪽 서브트리의 크기를 우선 계산한다.
+	int leftSize = 0;
+	if(root->left != NULL) leftSize = root->left->size;
+	if(k <= leftSize ) return kth(root->left, k);
+	if(k == leftSize + 1 ) return root;
+	return kth(root->right, k - leftSize - 1);
+}
+int main(void)
+{
+        //테스트 코드 시작
+       
+        Node* root=NULL; ///< 트립 선언
+        //[0,9]의 숫자를 오름차순으로 삽입
+        for(int i=0;i<10;i++)
+        {
+                root=insert(root,new Node(i));
+        }
+        //트립을 중위순회
+        inorder(root);
+        cout<<endl;
+        //트립에서 1,6,5,8의 값을 삭제
+        root=erase(root,1);
+        root=erase(root,6);
+        root=erase(root,5);
+        root=erase(root,8);
+        //트립을 중위순회
+        inorder(root);
+        cout<<endl;
+        
+		cout << kth(root, 2)->key << endl;
+        //테스트 코드 끝
+        return 0;
+}
+		
