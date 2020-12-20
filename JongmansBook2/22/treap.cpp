@@ -120,30 +120,44 @@ Node* kth(Node* root, int k) {
 	if(k == leftSize + 1 ) return root;
 	return kth(root->right, k - leftSize - 1);
 }
+Node* findValue(Node* root, KeyType key) {
+	if(root == NULL) return root;
+	if(root->key == key) return root;
+	if(root->key > key) findValue(root->left, key);
+	else {
+		findValue(root->right, key);
+	}
+	return root;
+}
+void CountLess(Node* root, KeyType key) {
+	Node* findNode = findValue(root, key);
+	cout << findNode->left->size << endl;
+}
 int main(void)
 {
-        //테스트 코드 시작
-       
-        Node* root=NULL; ///< 트립 선언
-        //[0,9]의 숫자를 오름차순으로 삽입
-        for(int i=0;i<10;i++)
-        {
-                root=insert(root,new Node(i));
-        }
-        //트립을 중위순회
-        inorder(root);
-        cout<<endl;
-        //트립에서 1,6,5,8의 값을 삭제
-        root=erase(root,1);
-        root=erase(root,6);
-        root=erase(root,5);
-        root=erase(root,8);
-        //트립을 중위순회
-        inorder(root);
-        cout<<endl;
-        
-		cout << kth(root, 2)->key << endl;
-        //테스트 코드 끝
-        return 0;
+	//테스트 코드 시작
+
+	Node* root=NULL; ///< 트립 선언
+	//[0,9]의 숫자를 오름차순으로 삽입
+	for(int i=0;i<10;i++)
+	{
+			root=insert(root,new Node(i));
+	}
+	//트립을 중위순회
+	inorder(root);
+	cout<<endl;
+	//트립에서 1,6,5,8의 값을 삭제
+	root=erase(root,1);
+	root=erase(root,6);
+	root=erase(root,5);
+	root=erase(root,8);
+	//트립을 중위순회
+	inorder(root);
+	cout<<endl;
+	CountLess(root, 4);
+	cout << endl;
+	cout << kth(root, 2)->key << endl;
+	//테스트 코드 끝
+	return 0;
 }
 		
