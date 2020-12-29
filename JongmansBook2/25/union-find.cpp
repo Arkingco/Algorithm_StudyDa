@@ -9,28 +9,22 @@ struct OptimizedDisjointSet {
 			parent[i] = i;
 		}
 	}
-	void swap(int& a, int& b) {
-		int swapNumber = a;
-		a = b;
-		b = swapNumber;
-	}
 	int find(int u) {
 		if(u == parent[u]) return u;
 		return parent[u] = find(parent[u]);
 	}
 	void Union(int u, int v) {
-		int Ur = find(u);
-		int Uv = find(v);
+		u = find(u);
+		v = find(v);
+		if(u == v) return;
 		
-		if(Ur == Uv) return;
+		if(rank[u] > rank[v]) 
+			swap(u, v);
 		
-		if(rank[Ur] > rank[Uv]) 
-			swap(Ur, Uv);
+		parent[u] = v;
 		
-		parent[Ur] = Uv;
-		
-		if(rank[Ur] == rank[Uv] )
-			++rank[Uv];
+		if(rank[u] == rank[v] )
+			++rank[v];
  		
 	}	
 };
