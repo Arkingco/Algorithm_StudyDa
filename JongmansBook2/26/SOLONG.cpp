@@ -52,7 +52,7 @@ struct Trie {
 		// 문자열 종료시
 		if(*key == 0) return 0;
 		// 이 노드에서 추천되는 문자열이 이 문자열이면 탭 누르고 종료
-		if(first == id) return 1;
+		if(first == id) return 2;
 		// 아니면 다음 문자를 타이핑 한다.
 		int next = charToNumber(*key);
 		return 1 + children[next] -> type(key+1, id);
@@ -64,13 +64,13 @@ struct Trie {
 		// 이 문자열이 사전에 있는지 확인하고, 있다면 번호를 구한다.
 		Trie* node = trie->find(word);
 		// 사전에 없으면 직접 타이핑 할 수밖에 없다.
-		if(node == NULL && node->terminal == -1) return strlen(word);
+		if(node == NULL || node->terminal == -1) return strlen(word);
 		cout << word << endl;
 		return trie->type(word, node->terminal);
 	}
 	
 	Trie* find(const char* key) {
-		if(key == 0) 
+		if(*key == 0) 
 			return this;
 		int next = charToNumber(*key);
 		if(children[next] == NULL) {
