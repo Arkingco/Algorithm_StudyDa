@@ -7,13 +7,13 @@ using namespace std;
 
 const int ALPABET = 26;
 
-int charToNumber(char ch) { return 'A'-ch;}
+int charToNumber(char ch) { return ch - 'A';}
 
 struct Trie {
 	
 	int terminal;
-	Trie* children[ALPABET];
 	int first;
+	Trie* children[ALPABET];
 	
 	Trie() : terminal(-1), first(-1) {
 		memset(children, 0, sizeof(children));
@@ -29,7 +29,6 @@ struct Trie {
 	
 	// 이 노드를 루트로 하는 트라이에 번호 id인 문자열 key를 추가한다.
 	void insert(const char* key, int id) {
-		
 		// first 를 우선 갱신
 		if(first == -1) first = id;
 		// 문자열이 끝낫다면 terminal만 바꾸고 종료
@@ -65,20 +64,19 @@ struct Trie {
 		// 이 문자열이 사전에 있는지 확인하고, 있다면 번호를 구한다.
 		Trie* node = trie->find(word);
 		// 사전에 없으면 직접 타이핑 할 수밖에 없다.
+		if(node == NULL && node->terminal == -1) return strlen(word);
+		cout << word << endl;
 		return trie->type(word, node->terminal);
 	}
 	
 	Trie* find(const char* key) {
-		if(key == 0) {
+		if(key == 0) 
 			return this;
-		} else {
-			int next = charToNumber(*key);
-			if(children[next] == NULL) {
-				return NULL;
-			}
-			children[next] -> find(key + 1);
-		} 
-		
+		int next = charToNumber(*key);
+		if(children[next] == NULL) {
+			return NULL;
+		}
+		return children[next] -> find(key + 1);
 	}
 };
 
@@ -110,29 +108,17 @@ int main() {
 	while(T--) {
 		int n, m;
 		cin >> n >> m;
+				
+		Trie* trie = readInput(n);
 		
-		Trie* trie = new Trie();
-		vector<string> wordList;
-		
-		
-		for(int i=0; i<n; ++i) {
-			string Trieword;
-			int wordPriority;
-			
-			cin >> Trieword >> wordPriority;	
-			trie->insert(Trieword.c_str(), wordPriority);
-		}
-		
+		int ret = 0;
 		for(int i=0; i<m; ++i) {
 			string word;
 			cin >> word;
-			wordList.push_back(word);
+			ret += trie -> CountKeys(trie, word.c_str());
+			cout << ret << endl;
 		}
 		
-		int ret = 0;
-		for(int i=0; i<wordList.size(); ++i) {
-			
-		}
 		
 	}
 }
