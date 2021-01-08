@@ -52,7 +52,7 @@ struct Trie {
 		// 문자열 종료시
 		if(*key == 0) return 0;
 		// 이 노드에서 추천되는 문자열이 이 문자열이면 탭 누르고 종료
-		if(first == id) return 2;
+		if(first == id) return 1;
 		// 아니면 다음 문자를 타이핑 한다.
 		int next = charToNumber(*key);
 		return 1 + children[next] -> type(key+1, id);
@@ -106,6 +106,7 @@ int main() {
 	int T;
 	cin >> T;
 	while(T--) {
+		
 		int n, m;
 		cin >> n >> m;
 				
@@ -118,7 +119,6 @@ int main() {
 			ret += trie -> CountKeys(trie, word.c_str());
 			cout << ret << endl;
 		}
-		
 		
 	}
 }
