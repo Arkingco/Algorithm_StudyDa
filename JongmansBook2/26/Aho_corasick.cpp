@@ -107,7 +107,9 @@ void computeFailFunc(Trie* root) {
 				while(t != root && t->children[edge] == NULL) {
 					t = t->fail;
 				}
-				if(t-> children[edge]) t = t->children[edge];
+				if(t-> children[edge]){
+					t = t->children[edge];
+				}
 				child -> fail = t;
 				// 이 위치에서 끝나는 바늘 문자열이 있으면 추가한다.
 				child -> output = child->fail->output;
