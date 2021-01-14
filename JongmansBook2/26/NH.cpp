@@ -5,7 +5,7 @@
 using namespace std;
 
 const int ALPABET = 26;
-
+const int MOD = 10007;
 int charToint(char ch) { return ch - 'A';}
 
 void getLog(char a) {
@@ -124,7 +124,26 @@ vector<pair<int, int> > SeachTrie(const string& s, Trie* root) {
 	return ret;
 }
 
+int cache[101][1001];
 
+// 앞으로 length 글자를 더 만들어야 하는데, 아호-코라식 알고리즘의
+// 현재 상태가 state에 주어질 때 IDS에 걸리지 앟는 문자열의 수는?
+int count(int length, Trie* state) {
+	// 기저 사례:이 상태에 문자열이 출현하면 곧장 종료
+	if(state -> output.size()) return 0;
+	// 기저 사례 : 문자열을 전부 만든 경우
+	if(length == 0) return 1;
+	int& ret = cache[length][state->no];
+	if(ret != -1) return ret;
+	ret = 0;
+	
+	// 다음으로 letter 글자를 넣을 경우
+	for(int letter = 0; letter < ALPABET; ++letter) {
+		ret += count(length-1, state -> next[letter]);
+		ret %= MOD;
+	}
+	return ret;
+}
 
 int main() {
 	int n;
