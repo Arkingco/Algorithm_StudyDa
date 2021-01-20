@@ -10,7 +10,11 @@ https://boycoding.tistory.com/category/C++%20%EC%9D%B4%EC%95%BC%EA%B8%B0?page=1
 확률
 	https://blog.naver.com/kjihoon0914/221205945174
 
-프로그램 문서화 방법
-	https://lazygyu.net/blog/secrets_of_documentation
+
+not ALGORITHM
+	프로그램 문서화 방법
+		https://lazygyu.net/blog/secrets_of_documentation
+	밑바닥부터 만드는 컴퓨팅 시스템 강의
+		https://etst.tistory.com/125?category=898055
 
 
