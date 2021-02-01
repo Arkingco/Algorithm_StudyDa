@@ -11,13 +11,10 @@ int maxCrossSize = 0;
 int findWord(int word) {
 	for(int i=0; i<wordList.size(); ++i) {
 		if(word == wordList[i]) {
-			
-			int wordsize = wordList.size()-i;
-			maxCrossSize = max(maxCrossSize, wordsize);
 			wordList.erase(wordList.begin() + i);
 			
 			int ret = wordList.size()-i;
-			
+			maxCrossSize = max(maxCrossSize, ret+1);
 			return ret;
 		}
 	}
@@ -42,6 +39,8 @@ int main() {
 		
 	}
 	
+
+	// 입력부
 	vector<int> list;
 	for(int i=1; i<=4; ++i) {
 		if(squrd_map[i]==2 || squrd_map[i] == 3) {
@@ -74,11 +73,6 @@ int main() {
 			i++;
 		}
 	}
-	
-	for(int i=0; i<list.size(); ++i) {
-		cout << list[i] << " ";
-	}
-	cout << endl;
 	cout << ret << endl;
 	cout << maxCrossSize << endl;
 }
