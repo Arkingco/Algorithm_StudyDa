@@ -5,15 +5,18 @@ using namespace std;
 
 int M, C, price[25][25];
 int memo[210][25];
+int count = 0;
 int shop(int money, int g) {
     if(money < 0) return -10000000;
     if(g == C) return M - money;
+    count++;
     // 아래줄을 주석 처리하고 나면, 탑다운  DP가 퇴각 검색으로 바귄다.!!!
-    if (memo[money][g] != -1 ) return memo[money][g];
+    // if (memo[money][g] != -1 ) return memo[money][g];
     int ans = -1;
     for(int model = 1; model <= price[g][0]; ++model) {
         ans = max(ans, shop(money - price[g][model], g+1));
     }
+    
     return memo[money][g] = ans;
 }
 
@@ -23,6 +26,7 @@ void printf_shop(int money, int g) {
     }
     // 어느 품목이 최적인가?
     for(int model = 1; model <= price[g][0]; model++) { 
+        cout << shop(money - price[g][model], g+1)<< " --- " << endl;
         if(shop(money - price[g][model], g+1) == memo[money][g]) {
             cout << price[g][model] << (g == C-1) ? '\n' : '-';
             printf_shop(money - price[g][model], g + 1);
@@ -38,28 +42,33 @@ void topDown() {
     cin >> TC;
     while(TC--) {
         cin >> M >> C;
+
         for(int i=0; i<C; ++i) {
             cin >> price[i][0];
             for(int j=1; j<=price[i][0]; ++j) cin >> price[i][j];
         }
 
         memset(memo, -1, sizeof memo);
-
+        int score3 = shop3(0, 0);
+        cout << count << " count " << endl;
+        count =0;
+        memset(memo, -1, sizeof memo);
         score = shop(M, 0);
+        cout << count << " count2 " << endl;
+
+         
+
+        
         if (score < 0) cout << "NO SOLUTION" << endl;
         else {
             cout << score << endl;
-            int g, money;
-            for(int i=0; i<250; ++i) {
-                for(int j=0; j<21; ++j) {
-                    if(memo[i][j] == score) {
-                        g = i;
-                        money = j;
-                    }
-                }
-            }
-            cout << memo[g][money] << endl;
-            printf_shop(g, money);
+            // for(int i=0; i<250; ++i) {
+            //     for(int j=0; j<25; ++j) {
+            //         cout << memo[i][j] << " "; 
+            //     }
+            //     cout << endl;
+            // }
+            // printf_shop(score, 0);
         }
     }
 
