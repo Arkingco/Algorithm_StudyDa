@@ -1,49 +1,96 @@
 #include<iostream>
+#include<vector>
 #include<cstring>
 using namespace std;
 
-// int M, C, price[25][25];
-// int memo[210][25];
-// int shop(int money, int g) {
-//     if(money < 0) return -10000000;
-//     if(g == C) return M - money;
-//     // 아래줄을 주석 처리하고 나면, 탑다운  DP가 퇴각 검색으로 바귄다.!!!
-//     if (memo[money][g] != -1 ) return memo[money][g];
-//     int ans = -1;
-//     for(int model = 1; model <= price[g][0]; ++model) {
-//         ans = max(ans, shop(money - price[g][model], g+1));
-//     }
-//     return memo[money][g] = ans;
-// }
-
-// void topDown() {
-
-//     int i, j, TC, score;
-
-//     cin >> TC;
-//     while(TC--) {
-//         cin >> M >> C;
-//         for(int i=0; i<C; ++i) {
-//             cin >> price[i][0];
-//             for(int j=1; j<=price[i][0]; ++j) cin >> price[i][j];
-//         }
-
-//         memset(memo, -1, sizeof memo);
-//         score = shop(M, 0);
-//         if (score < 0) cout << "NO SOLUTION" << endl;
-//         else cout << score << endl; 
-//     }
-
-// }
-
-void bottomUP() {
-    
+int M, C, price[25][25];
+int memo[210][25];
+int shop(int money, int g) {
+    if(money < 0) return -10000000;
+    if(g == C) return M - money;
+    // 아래줄을 주석 처리하고 나면, 탑다운  DP가 퇴각 검색으로 바귄다.!!!
+    if (memo[money][g] != -1 ) return memo[money][g];
+    int ans = -1;
+    for(int model = 1; model <= price[g][0]; ++model) {
+        ans = max(ans, shop(money - price[g][model], g+1));
+    }
+    return memo[money][g] = ans;
 }
-int main() {
+
+void printf_shop(int money, int g) {
+    if(money < 0 || g == C ) {
+        return;
+    }
+    // 어느 품목이 최적인가?
+    for(int model = 1; model <= price[g][0]; model++) { 
+        if(shop(money - price[g][model], g+1) == memo[money][g]) {
+            cout << price[g][model] << (g == C-1) ? '\n' : '-';
+            printf_shop(money - price[g][model], g + 1);
+        }
+    }
+
+}
+
+void topDown() {
+
+    int i, j, TC, score;
+
+    cin >> TC;
+    while(TC--) {
+        cin >> M >> C;
+        for(int i=0; i<C; ++i) {
+            cin >> price[i][0];
+            for(int j=1; j<=price[i][0]; ++j) cin >> price[i][j];
+        }
+
+        memset(memo, -1, sizeof memo);
+
+        score = shop(M, 0);
+        if (score < 0) cout << "NO SOLUTION" << endl;
+        else {
+            cout << score << endl;
+            int g, money;
+            for(int i=0; i<250; ++i) {
+                for(int j=0; j<21; ++j) {
+                    if(memo[i][j] == score) {
+                        g = i;
+                        money = j;
+                    }
+                }
+            }
+            cout << memo[g][money] << endl;
+            printf_shop(g, money);
+        }
+    }
+
+}
+
+vector<pair<int, int> >anser;
+vector<pair<int, int> > search[25][210];
+
+void find(int g, int money) {
+
+    // 기저사례
+    if(g == 0) {
+        anser.push_back({g, money});
+        return;
+    } 
+
+    // 그래프 탐색처럼 정답 들을 역추적한다.
+    for(int next=0; next<search[g][money].size(); ++next) {
+        anser.push_back({g, money});
+        int nextG = search[g][money][next].first;
+        int nextMoney = search[g][money][next].second;
+
+        find(nextG, nextMoney);
+    }
+}
+
+void bottomUp() {
     int g, money, k, TC, M, C;
     int price[25][25];
     bool reachable[25][210];
-
+   
     cin >> TC;
     while(TC--) {
         cin >> M >> C;
@@ -67,6 +114,7 @@ int main() {
                     for(k = 1; k <= price[g][0]; ++k) {
                         if(money - price[g][k] >= 0 ) {
                             reachable[g][money - price[g][k]] = true;
+                            search[g][money-price[g][k]].push_back({g-1, money});
                         }
                     }
                 }
@@ -74,10 +122,27 @@ int main() {
         }
         for(money = 0; money <= M && !reachable[C - 1][money]; ++money);
 
-        if(M+1 == money ) cout << "Np solution" << endl;
-        else cout << M - money << endl;
+        if(M+1 == money ) cout << "No solution" << endl;
+        else {
+            find(C-1, money);
+            cout << M - money << endl;
+        } 
 
+        for(money = 0; money <= M && !memo[C-1][money]; ++money);
+
+        cout << endl;
+        for(int i=0; i<anser.size(); ++i) {
+            cout << anser[i].first << "," << anser[i].second << "   ";
+            if( (i+1) % C == 0) cout << endl;
+        }
+        cout << endl;
+
+        anser.clear();
     }
+}
 
-
+int main() {
+   
+    topDown();
+    
 }
