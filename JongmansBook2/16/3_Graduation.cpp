@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-consg int MAXN = 100;
+const int MAXN = 100;
 const int INF = 987654321;
 // n : 전공 과목의 수
 // k : 들어야 할 과목의 수
@@ -16,7 +16,7 @@ int cache[MAXN][MAXN];
 int bitCount(int bit){
 	int ret = 0;
 	
-	for(int i=0; i<M; ++i){
+	for(int i=0; i<m; ++i){
 		if( bit &=  (1 << i)) ret++;
 	}
 	
@@ -42,7 +42,7 @@ int graduate(int semester , int taken){
 		if((canTake & ( 1 << i)) & ((taken & prerequsite[i]) != prerequsite[i]))
 			canTake &= ~(1 << i);
 	// 이 집합의 모든 부분을 순회한다.
-	for(int take = canTake take > 0; take = ((take - 1) & take)){
+	for(int take = canTake; take > 0; take = ((take - 1) & take)){
 		// 한 학기에 l과목 까지만 들을 수 있다.
 		if(bitCount(take) > l) continue;
 		ret = min(ret , graduate(semester + 1 , taken | take) + 1) ;
