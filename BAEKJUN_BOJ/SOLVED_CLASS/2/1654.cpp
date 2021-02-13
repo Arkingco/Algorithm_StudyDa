@@ -28,17 +28,32 @@ int main()
 			mCount = mCount + (anser[i] / low);
 		}
 
-		cout << mCount << endl;
+		if (mCount == m) {
+			break;
+		}
 
-		if(mCount > m) {
-			
+		if (mCount > m) {
+			low = low + (low / 2);
 		}
 		else {
-			low = low + (low / 2);
-			
+			low = (low / 2);
 		}
 
-	
+
 	}
-	
+
+
+	int iLow = low;
+	for (iLow; iLow < 1000000; ++iLow) {
+
+		mCount = 0;
+		for (int i = 0; i < n; ++i) {
+			mCount = mCount + (anser[i] / iLow);
+		}
+
+		if (mCount != m) {
+			break;
+		}
+	}
+	cout << iLow - 1 << endl;
 }
