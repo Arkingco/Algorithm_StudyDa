@@ -6,54 +6,42 @@
 #include<math.h>
 using namespace std;
 
+typedef long long int lli;
+
 int main()
 {
 	int n, m;
 	cin >> n >> m;
 
-	vector<int> anser(n);
+	vector<lli> anser(n);
+	lli start = 1;
+	lli end = 0;
 
-	int low = 1000001;
 	for (int i = 0; i < n; ++i) {
 		cin >> anser[i];
 
-		low = min(low, anser[i]);
+		end = max(end, anser[i]);
 	}
 
-	int mCount = 0;
-	while (true) {
+	lli result = 0;
+	while (start <= end) {
 
-		mCount = 0;
+		lli mid = (start + end) / 2;
+
+		lli countM = 0;
 		for (int i = 0; i < n; ++i) {
-			mCount = mCount + (anser[i] / low);
+			countM = countM + (anser[i] / mid);
 		}
 
-		if (mCount == m) {
-			break;
+		if (countM < m) {
+			end = mid - 1;
 		}
-
-		if (mCount > m) {
-			low = low + (low / 2);
+		// 많이 만드는건 문제가 되지 않는다.
+		else if (countM >= m) {
+			result = max(result, mid);
+			start = mid + 1;
 		}
-		else {
-			low = (low / 2);
-		}
-
 
 	}
-
-
-	int iLow = low;
-	for (iLow; iLow < 1000000; ++iLow) {
-
-		mCount = 0;
-		for (int i = 0; i < n; ++i) {
-			mCount = mCount + (anser[i] / iLow);
-		}
-
-		if (mCount != m) {
-			break;
-		}
-	}
-	cout << iLow - 1 << endl;
+	cout << result << endl;
 }
