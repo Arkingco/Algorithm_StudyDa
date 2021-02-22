@@ -16,8 +16,7 @@ bool compare(number a, number b) {
 	// a가 b보다 적을때 오름차순 sort함수의 3번째 인자값인 함수는
 	// 기본적으로 true를 반환하면 작동 하게 되어있다.
 	// 즉 a < b 일 때 작동한다는 뜻은 내림차순으로 작동한다는 뜻이다. 
-
-	return a.x == b.x ? a.y < b.y : a.x < b.x;
+	return a.y == b.y ? a.x < b.x : a.y < b.y;
 }
 
 int main()
