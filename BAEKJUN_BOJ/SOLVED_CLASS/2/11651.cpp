@@ -18,7 +18,7 @@ bool compare(number a, number b) {
 	// 즉 a < b 일 때 작동한다는 뜻은 내림차순으로 작동한다는 뜻이다. 
 	return a.y == b.y ? a.x < b.x : a.y < b.y;
 }
-
+// some
 int main()
 {
 	cout.tie(0); cin.tie(0); ios::sync_with_stdio(0);
