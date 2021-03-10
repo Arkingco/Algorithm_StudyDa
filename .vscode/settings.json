@@ -9,7 +9,8 @@
         "initializer_list": "cpp",
         "algorithm": "cpp",
         "limits": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "string": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
