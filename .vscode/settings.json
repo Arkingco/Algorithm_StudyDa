@@ -11,7 +11,8 @@
         "limits": "cpp",
         "cmath": "cpp",
         "string": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "xstring": "cpp"
     },
     "C_Cpp.errorSquiggles": "Disabled"
 }
