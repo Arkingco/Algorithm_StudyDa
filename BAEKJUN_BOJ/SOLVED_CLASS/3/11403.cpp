@@ -25,6 +25,8 @@ int main() {
 	cin.tie(NULL);
 	ios::sync_with_stdio(false);
 
+
+	// 간선
 	cin >> V;
 
 	for (int i = 0; i < V; ++i) {
